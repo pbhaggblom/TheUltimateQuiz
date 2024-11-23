@@ -9,8 +9,8 @@ public class QuizGame extends Thread {
     private final Player player1;
     private final Player player2;
     private Player activePlayer;
-    private int numOfRoundsPerGame;
-    private int numOfQuestionsPerRound;
+    private final int numOfRoundsPerGame;
+    private final int numOfQuestionsPerRound;
 
     public QuizGame(Player player1, Player player2) {
         this.player1 = player1;
@@ -29,26 +29,52 @@ public class QuizGame extends Thread {
     @Override
     public void run() {
 
+        int rounds = 0;
+        int questions = 0;
+        int numOfPlayersAnswered = 0;
+
         System.out.println(player1.getName() + " " + player1.receive());
         System.out.println(player2.getName() + " " + player2.receive());
 
         activePlayer = player1;
         activePlayer.send("CATEGORY");
         String input;
-        while (true) {
-            //välj kategori
-            //svara på frågor
-            //spara resultat
 
+        while (true) {
             try {
                 input = activePlayer.receive();
-                if (input.startsWith("category chosen")) {
+                if (input.startsWith("chosen category")) {
                     System.out.println(activePlayer.getName() + " " + input);
                     activePlayer.send("QUESTION");
-                } else if (input.startsWith("question answered")) {
-                    System.out.println(activePlayer.getName() + " " + input);
-                    changeActivePlayer();
-//                    activePlayer.send("CATEGORY");
+                } else if (input.startsWith("answered")) {
+                    questions++;
+                    if (questions < numOfQuestionsPerRound) {
+                        System.out.println(activePlayer.getName() + " " + input);
+                        System.out.println("Questions: " + questions);
+                        activePlayer.send("QUESTION");
+                    } else {
+                        System.out.println(activePlayer.getName() + " " + input);
+                        System.out.println("Questions: " + questions);
+                        numOfPlayersAnswered++;
+                        if (numOfPlayersAnswered == 2) {
+                            rounds++;
+                            System.out.println("Rounds: " + rounds);
+                            if (rounds < numOfRoundsPerGame) {
+                                questions = 0;
+                                numOfPlayersAnswered = 0;
+                                activePlayer.send("CATEGORY");
+                            } else {
+                                rounds = 0;
+                                player1.send("RESULT");
+                                player2.send("RESULT");
+                            }
+                        } else {
+                            questions = 0;
+                            activePlayer.send("WAIT");
+                            activePlayer = activePlayer.getOpponent();
+                            activePlayer.send("QUESTION");
+                        }
+                    }
                 }
             } catch (RuntimeException e) {
                 System.out.println("Active player disconnected");

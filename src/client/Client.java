@@ -23,12 +23,12 @@ public class Client {
         gw.startButton.addActionListener(e -> {
             connectToServer();
         });
-        gw.category1.addActionListener(e -> out.println("category chosen: 1"));
-        gw.category2.addActionListener(e -> out.println("category chosen: 2"));
-        gw.answer1.addActionListener(e -> out.println("question answered: 1"));
-        gw.answer2.addActionListener(e -> out.println("question answered: 2"));
-        gw.answer3.addActionListener(e -> out.println("question answered: 3"));
-        gw.answer4.addActionListener(e -> out.println("question answered: 4"));
+        gw.category1.addActionListener(e -> out.println("chosen category: 1"));
+        gw.category2.addActionListener(e -> out.println("chosen category: 2"));
+        gw.answer1.addActionListener(e -> out.println("answered: 1"));
+        gw.answer2.addActionListener(e -> out.println("answered: 2"));
+        gw.answer3.addActionListener(e -> out.println("answered: 3"));
+        gw.answer4.addActionListener(e -> out.println("answered: 4"));
 
     }
 
@@ -55,13 +55,18 @@ public class Client {
                         gw.panelCategories.setVisible(false);
                         gw.panelQuestions.setVisible(false);
                     } else if (fromServer.equals("CATEGORY")) {
+                        gw.panelQuestions.setVisible(false);
+                        gw.categoryWindow();
                         gw.panelCategories.setVisible(true);
-                        System.out.println("true");
                     } else if (fromServer.equals("QUESTION")) {
-
+                        gw.panelQuestions.setVisible(false);
                         gw.questionsWindow();
                         gw.panelQuestions.setVisible(true);
-                        System.out.println("your turn");
+//                        System.out.println("your turn");
+                    } else if (fromServer.equals("RESULT")) {
+                        gw.panelCategories.setVisible(false);
+                        gw.panelQuestions.setVisible(false);
+                        System.out.println("Game finished");
                     }
                 }
             } catch (IOException e) {
