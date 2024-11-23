@@ -9,7 +9,7 @@ public class QuizGame extends Thread {
     private final Player player1;
     private final Player player2;
     private Player activePlayer;
-    private int numOfRounds;
+    private int numOfRoundsPerGame;
     private int numOfQuestionsPerRound;
 
     public QuizGame(Player player1, Player player2) {
@@ -22,7 +22,7 @@ public class QuizGame extends Thread {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        numOfRounds = Integer.parseInt(p.getProperty("numOfRounds", "3"));
+        numOfRoundsPerGame = Integer.parseInt(p.getProperty("numOfRounds", "3"));
         numOfQuestionsPerRound = Integer.parseInt(p.getProperty("numOfQuestionsPerRound", "3"));
     }
 
