@@ -2,7 +2,6 @@ package GameGUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.PrintWriter;
 
 public class GameWindow extends JFrame {
     JPanel panelStart = new JPanel();
