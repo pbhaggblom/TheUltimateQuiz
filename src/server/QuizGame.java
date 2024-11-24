@@ -11,6 +11,9 @@ public class QuizGame extends Thread {
     private Player activePlayer;
     private final int numOfRoundsPerGame;
     private final int numOfQuestionsPerRound;
+    private int roundsPlayed;
+    private int questionsAnswered;
+    private int numOfPlayersAnswered;
 
     public QuizGame(Player player1, Player player2) {
         this.player1 = player1;
@@ -24,6 +27,54 @@ public class QuizGame extends Thread {
         }
         numOfRoundsPerGame = Integer.parseInt(p.getProperty("numOfRoundsPerGame", "3"));
         numOfQuestionsPerRound = Integer.parseInt(p.getProperty("numOfQuestionsPerRound", "3"));
+    }
+
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
+    public int getNumOfRoundsPerGame() {
+        return numOfRoundsPerGame;
+    }
+
+    public int getNumOfQuestionsPerRound() {
+        return numOfQuestionsPerRound;
+    }
+
+    public int getRoundsPlayed() {
+        return roundsPlayed;
+    }
+
+    public int getQuestionsAnswered() {
+        return questionsAnswered;
+    }
+
+    public int getNumOfPlayersAnswered() {
+        return numOfPlayersAnswered;
+    }
+
+    public void addQuestionsAnswered() {
+        questionsAnswered++;
+    }
+
+    public void addRoundsPlayed() {
+        roundsPlayed++;
+    }
+
+    public void addNumOfPlayersAnswered() {
+        numOfPlayersAnswered++;
+    }
+
+    public void resetQuestionsAnswered() {
+        questionsAnswered = 0;
+    }
+
+    public void resetRoundsPlayed() {
+        roundsPlayed = 0;
+    }
+
+    public void resetNumOfPlayersAnswered() {
+        numOfPlayersAnswered = 0;
     }
 
     @Override
@@ -82,11 +133,5 @@ public class QuizGame extends Thread {
             }
         }
 
-    }
-
-    public void changeActivePlayer() {
-        activePlayer.send("WAIT");
-        activePlayer = activePlayer.getOpponent();
-        activePlayer.send("QUESTION");
     }
 }
