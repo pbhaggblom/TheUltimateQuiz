@@ -1,8 +1,10 @@
 package server;
 
+import GameLogic.Questions;
 import GameLogic.QuizCategory;
 import GameLogic.TheQuiz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServerProtocol {
@@ -10,7 +12,10 @@ public class ServerProtocol {
     private QuizGame game;
     private TheQuiz quiz;
 
+    private List<QuizCategory> categories;
+    private List<String> questions;
     private QuizCategory currentCategory;
+    private Questions currentQuestion;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
@@ -21,7 +26,6 @@ public class ServerProtocol {
     public ServerProtocol(QuizGame game) {
         this.game = game;
         quiz = new TheQuiz();
-
     }
 
     public TheQuiz getQuiz() {
@@ -33,15 +37,20 @@ public class ServerProtocol {
 
         if (state == INITIAL) {
             //skicka kategorier
-            List<String> list = quiz.categories();
+
+            List<QuizCategory> list = new ArrayList<>();
+            for (QuizCategory category : quiz.getCategories()) {
+                list.add(category);
+            }
             state = GAMELOOP;
-            return new Response("Category", list);
+            return new Response("CATEGORY", quiz.categories());
         } else if (state == GAMELOOP) {
+            System.out.println("Inside gameloop");
             if (input.startsWith("chosen category")) {
                 //hämta frågor från vald kategori
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
-//                return "QUESTION";
+                return new Response("QUESTION", questions);
             } else if (input.startsWith("answered")) {
                 //kolla om svar är rätt
                 //ge poäng
@@ -79,7 +88,7 @@ public class ServerProtocol {
                 }
             }
         }
-        return new Response("Error", null);
+        return new Response("ERROR", null);
     }
 
 

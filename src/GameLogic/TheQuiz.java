@@ -39,6 +39,10 @@ public class TheQuiz {
         return categoryNames;
     }
 
+    public QuizCategory[] getCategories() {
+        return categories;
+    }
+
     public void playQuiz(BufferedReader in, PrintWriter out) throws IOException {
 
         int score = 0;

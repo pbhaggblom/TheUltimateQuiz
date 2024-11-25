@@ -90,15 +90,17 @@ public class QuizGame extends Thread {
         System.out.println(player2.getName() + " " + player2.receive());
 
         activePlayer = player1;
-        activePlayer.send(new Response("CATEGORY", sp.getQuiz().categories()));
+        activePlayer.send(sp.getOutput(null));
         String input;
 
         while (true) {
 
             try {
                 input = activePlayer.receive();
+                System.out.println(input);
                 if (input != null) {
                     activePlayer.send(sp.getOutput(input));
+                    activePlayer.out.reset();
                 }
 
 //                if (input.startsWith("chosen category")) {
@@ -138,6 +140,8 @@ public class QuizGame extends Thread {
             } catch (RuntimeException e) {
                 System.out.println("Active player disconnected");
                 break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
 

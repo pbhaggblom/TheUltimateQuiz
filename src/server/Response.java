@@ -8,9 +8,9 @@ public class Response implements Serializable {
     private String type;
     private List<String> responseList;
 
-    public Response(String type, List<String> responseArray) {
+    public Response(String type, List<String> responseList) {
         this.type =  type;
-        this.responseList = responseArray;
+        this.responseList = responseList;
     }
 
     public String getType() {
