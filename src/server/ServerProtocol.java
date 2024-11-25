@@ -45,12 +45,11 @@ public class ServerProtocol {
             state = GAMELOOP;
             return new Response("CATEGORY", quiz.categories());
         } else if (state == GAMELOOP) {
-            System.out.println("Inside gameloop");
             if (input.startsWith("chosen category")) {
                 //hämta frågor från vald kategori
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
-                return new Response("QUESTION", questions);
+                return new Response("QUESTION", null);
             } else if (input.startsWith("answered")) {
                 //kolla om svar är rätt
                 //ge poäng
@@ -59,7 +58,7 @@ public class ServerProtocol {
                     //skicka nästa fråga
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
-//                    return "QUESTION";
+                    return new Response("QUESTION", null);
                 } else {
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
@@ -71,21 +70,20 @@ public class ServerProtocol {
                             //skicka kategorier
                             game.resetQuestionsAnswered();
                             game.resetNumOfPlayersAnswered();
-//                            return "CATEGORY";
+                            return new Response("CATEGORY", quiz.categories());
                         } else {
                             //skicka resultat till båda spelarna
                             game.resetRoundsPlayed();
-//                            player1.send("RESULT");
-//                            player2.send("RESULT");
+                            return new Response("RESULT", null);
                         }
                     } else {
                         //skicka första frågan (samma som innan)
                         game.resetQuestionsAnswered();
-//                        activePlayer.send("WAIT");
-//                        activePlayer = activePlayer.getOpponent();
-//                        activePlayer.send("QUESTION");
+                        return new Response("WAIT", null);
                     }
                 }
+            } else if (input.equals("next player")) {
+                return new Response("QUESTION", null);
             }
         }
         return new Response("ERROR", null);

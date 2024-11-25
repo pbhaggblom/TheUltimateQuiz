@@ -43,7 +43,6 @@ public class Client {
     }
 
     public void listen() {
-
         new Thread(() -> {
             while (true) {
                 try {
@@ -54,46 +53,6 @@ public class Client {
                 }
             }
         }).start();
-
-//        SwingUtilities.invokeLater(() -> {
-//            try {
-//                Object fromServer = in.readObject();
-//                System.out.println(fromServer);
-//                if (fromServer instanceof Response) {
-//                    Response r = (Response) fromServer;
-//                    if (r != null) {
-//                        System.out.println("Server:" + r.getType());
-//                        if (r.getType().equals("WAIT")) {
-//                            System.out.println("Waiting for opponent");
-//                            gw.panelCategories.setVisible(false);
-//                            gw.panelQuestions.setVisible(false);
-//                        } else if (r.getType().equals("CATEGORY")) {
-//                            System.out.println("inside category");
-//                            gw.panelQuestions.setVisible(false);
-//                            gw.categoryWindow();
-//                            gw.panelCategories.setVisible(true);
-//                            gw.category1.setText(r.getResponseList().get(0));
-//                            gw.category2.setText(r.getResponseList().get(1));
-//                        } else if (r.getType().equals("QUESTION")) {
-//                            gw.panelQuestions.setVisible(false);
-//                            gw.questionsWindow();
-//                            gw.panelQuestions.setVisible(true);
-////                        System.out.println("your turn");
-//                        } else if (r.getType().equals("RESULT")) {
-//                            gw.panelCategories.setVisible(false);
-//                            gw.panelQuestions.setVisible(false);
-//                            System.out.println("Game finished");
-//                        }
-//                    }
-//                }
-//            } catch (IOException e) {
-//                System.out.println("Error reading from server");
-//                return;
-//            } catch (ClassNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
-//            listen();
-//        });
     }
 
     public void handleResponse(Object obj) {
@@ -106,7 +65,6 @@ public class Client {
                     gw.panelCategories.setVisible(false);
                     gw.panelQuestions.setVisible(false);
                 } else if (r.getType().equals("CATEGORY")) {
-                    System.out.println("inside category");
                     gw.panelQuestions.setVisible(false);
                     gw.categoryWindow();
                     gw.panelCategories.setVisible(true);
@@ -116,7 +74,6 @@ public class Client {
                     gw.panelQuestions.setVisible(false);
                     gw.questionsWindow();
                     gw.panelQuestions.setVisible(true);
-//                        System.out.println("your turn");
                 } else if (r.getType().equals("RESULT")) {
                     gw.panelCategories.setVisible(false);
                     gw.panelQuestions.setVisible(false);
@@ -124,7 +81,6 @@ public class Client {
                 }
             }
         }
-
     }
 
     public static void main(String[] args) {
