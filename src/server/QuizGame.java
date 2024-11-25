@@ -118,6 +118,7 @@ public class QuizGame extends Thread {
                                 rounds = 0;
                                 player1.send("RESULT");
                                 player2.send("RESULT");
+                                System.out.println("Game ended");
                             }
                         } else {
                             questions = 0;
