@@ -1,8 +1,17 @@
 package server;
 
+import GameLogic.QuizCategory;
+import GameLogic.TheQuiz;
+
+import java.util.List;
+
 public class ServerProtocol {
 
     private QuizGame game;
+    private TheQuiz quiz;
+
+    private QuizCategory currentCategory;
+
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
     final protected int GAME_ENDED = 2;
@@ -11,23 +20,28 @@ public class ServerProtocol {
 
     public ServerProtocol(QuizGame game) {
         this.game = game;
-
+        quiz = new TheQuiz();
 
     }
 
-    public String getOutput(String input) {
-        String output;
+    public TheQuiz getQuiz() {
+        return quiz;
+    }
+
+    public Response getOutput(String input) {
+        Response output;
 
         if (state == INITIAL) {
             //skicka kategorier
+            List<String> list = quiz.categories();
             state = GAMELOOP;
-            return "CATEGORY";
+            return new Response("Category", list);
         } else if (state == GAMELOOP) {
             if (input.startsWith("chosen category")) {
                 //hämta frågor från vald kategori
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
-                return "QUESTION";
+//                return "QUESTION";
             } else if (input.startsWith("answered")) {
                 //kolla om svar är rätt
                 //ge poäng
@@ -36,7 +50,7 @@ public class ServerProtocol {
                     //skicka nästa fråga
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
-                    return "QUESTION";
+//                    return "QUESTION";
                 } else {
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
@@ -48,7 +62,7 @@ public class ServerProtocol {
                             //skicka kategorier
                             game.resetQuestionsAnswered();
                             game.resetNumOfPlayersAnswered();
-                            return "CATEGORY";
+//                            return "CATEGORY";
                         } else {
                             //skicka resultat till båda spelarna
                             game.resetRoundsPlayed();
@@ -65,7 +79,7 @@ public class ServerProtocol {
                 }
             }
         }
-        return "unexpected error";
+        return new Response("Error", null);
     }
 
 

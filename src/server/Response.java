@@ -1,8 +1,9 @@
 package server;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Response {
+public class Response implements Serializable {
 
     private String type;
     private List<String> responseList;

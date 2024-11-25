@@ -1,18 +1,16 @@
 package client;
 
 import GameGUI.GameWindow;
+import server.Response;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class Client {
 
     PrintWriter out;
-    BufferedReader in;
+    ObjectInputStream in;
     Socket s;
     GameWindow gw;
 
@@ -36,7 +34,7 @@ public class Client {
         try {
             s = new Socket("127.0.0.1", 55555);
             out = new PrintWriter(s.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            in = new ObjectInputStream(s.getInputStream());
             out.println("connected");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -47,23 +45,27 @@ public class Client {
     public void listen() {
         SwingUtilities.invokeLater(() -> {
             try {
-                if (in.ready()) {
-                    String fromServer = in.readLine();
+                Object fromServer = in.readObject();
+                Response r = (Response) fromServer;
+                if (r != null) {
                     System.out.println("Server:" + fromServer);
-                    if (fromServer.equals("WAIT")) {
+                    if (r.getType().equals("WAIT")) {
                         System.out.println("Waiting for opponent");
                         gw.panelCategories.setVisible(false);
                         gw.panelQuestions.setVisible(false);
-                    } else if (fromServer.equals("CATEGORY")) {
+                    } else if (r.getType().equals("CATEGORY")) {
+
                         gw.panelQuestions.setVisible(false);
                         gw.categoryWindow();
                         gw.panelCategories.setVisible(true);
-                    } else if (fromServer.equals("QUESTION")) {
+                        gw.category1.setText(r.getResponseList().get(0));
+                        gw.category2.setText(r.getResponseList().get(1));
+                    } else if (r.getType().equals("QUESTION")) {
                         gw.panelQuestions.setVisible(false);
                         gw.questionsWindow();
                         gw.panelQuestions.setVisible(true);
 //                        System.out.println("your turn");
-                    } else if (fromServer.equals("RESULT")) {
+                    } else if (r.getType().equals("RESULT")) {
                         gw.panelCategories.setVisible(false);
                         gw.panelQuestions.setVisible(false);
                         System.out.println("Game finished");
@@ -72,6 +74,8 @@ public class Client {
             } catch (IOException e) {
                 System.out.println("Error reading from server");
                 return;
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
             listen();
         });
