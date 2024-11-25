@@ -11,7 +11,8 @@ public class CategoryWindow extends JFrame implements PanelHandler {
 
     public CategoryWindow() {}
 
-    public CategoryWindow(JPanel panelCategory, JButton category1, JButton category2, int x, int y, String text1, String text2) {
+    public CategoryWindow(JPanel panelCategory, JButton category1, JButton category2, int x, int y,
+                          String text1, String text2) {
         this.panelCategory = panelCategory;
         this.category1 = category1;
         this.category2 = category2;

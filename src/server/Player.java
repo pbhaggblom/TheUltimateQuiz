@@ -13,6 +13,7 @@ public class Player {
     BufferedReader in;
     PrintWriter out;
     Player opponent;
+    int points;
 
     public Player(Socket socket, String name) {
         this.socket = socket;
@@ -50,4 +51,8 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public void setPoints(int points) {this.points = points;}
+
+    public int getPoints() {return points;}
 }
