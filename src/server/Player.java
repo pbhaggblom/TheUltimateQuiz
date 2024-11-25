@@ -1,9 +1,6 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class Player {
@@ -11,7 +8,7 @@ public class Player {
     Socket socket;
     String name;
     BufferedReader in;
-    PrintWriter out;
+    ObjectOutputStream out;
     Player opponent;
     int points;
 
@@ -19,7 +16,7 @@ public class Player {
         this.socket = socket;
         this.name = name;
         try {
-            out = new PrintWriter(socket.getOutputStream(), true);
+            out = new ObjectOutputStream(socket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -36,8 +33,12 @@ public class Player {
 
     }
 
-    public void send(String message) {
-        out.println(message);
+    public void send(Response r) {
+        try {
+            out.writeObject(r);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Player getOpponent() {

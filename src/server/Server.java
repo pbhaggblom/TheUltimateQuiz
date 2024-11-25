@@ -9,9 +9,9 @@ public class Server {
         try (ServerSocket ss = new ServerSocket(55555)) {
             while (true) {
                 Player player1 = new Player(ss.accept(), "Player 1");
-                player1.send("WAIT");
+                player1.send(new Response("WAIT", null));
                 Player player2 = new Player(ss.accept(), "Player 2");
-                player2.send("WAIT");
+                player2.send(new Response("WAIT", null));
                 player1.setOpponent(player2);
                 player2.setOpponent(player1);
                 QuizGame newGame = new QuizGame(player1, player2);
