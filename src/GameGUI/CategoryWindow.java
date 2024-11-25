@@ -5,20 +5,23 @@ import java.awt.*;
 
 public class CategoryWindow extends JFrame implements PanelHandler {
     JPanel panelCategory;
-    JButton category1, category2;
-    int x, y;
-    String text1, text2;
+    JButton category1, category2, category3;
+    int x, y, z;
+    String text1, text2, text3;
 
     public CategoryWindow() {}
 
-    public CategoryWindow(JPanel panelCategory, JButton category1, JButton category2, int x, int y, String text1, String text2) {
+    public CategoryWindow(JPanel panelCategory, JButton category1, JButton category2, JButton category3, int x, int y, int z, String text1, String text2, String text3) {
         this.panelCategory = panelCategory;
         this.category1 = category1;
         this.category2 = category2;
+        this.category3 = category3;
         this.x = x;
         this.y = y;
+        this.z = z;
         this.text1 = text1;
         this.text2 = text2;
+        this.text3 = text3;
     }
 
     @Override
@@ -47,6 +50,12 @@ public class CategoryWindow extends JFrame implements PanelHandler {
         c.gridy = y;
         panelCategory.add(category2, c);
 
+        category3.setPreferredSize(new Dimension(150, 70));
+        category3.setSize(100, 40);
+        category3.setText(text3);
+        c.gridx = 2;
+        c.gridy = y;
+        panelCategory.add(category3, c);
 
         return panelCategory;
     }

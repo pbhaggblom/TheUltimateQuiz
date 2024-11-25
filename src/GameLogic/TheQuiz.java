@@ -22,6 +22,7 @@ public class TheQuiz {
 
     List<Questions[]> allQuestions = List.of(christmasQuestions, animalsQuestions, nutritionQuestions);
 
+
     QuizCategory[] categories = {
             new QuizCategory("Christmas", christmasQuestions),
             new QuizCategory("Animals", animalsQuestions),
@@ -38,6 +39,10 @@ public class TheQuiz {
         }
         return categoryNames;
     }
+
+    public Questions[] getCategoryQuestions(int categoryChoice) {
+        QuizCategory selectedCategory = quizCategories.get(categoryChoice - 1);
+        return selectedCategory.getCategories(); }
 
     public void playQuiz(BufferedReader in, PrintWriter out) throws IOException {
 
