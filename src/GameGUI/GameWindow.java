@@ -15,7 +15,6 @@ public class GameWindow extends JFrame {
     public JButton category2 = new JButton();
     public JButton answer1 = new JButton();
     public JButton category1 = new JButton();
-    public JButton category3 = new JButton();
     public JButton answer2 = new JButton();
     public JButton answer3 = new JButton();
     public JButton answer4 = new JButton();
@@ -50,8 +49,7 @@ public class GameWindow extends JFrame {
     }
 
     public void categoryWindow() {
-        CategoryWindow categoryWindow = new CategoryWindow(panelCategories, category1,
-                category2, category3, 0, 0, 0, "Christmas", "Animals", "Nutrition");
+        CategoryWindow categoryWindow = new CategoryWindow(panelCategories, category1, category2, 0, 0, "Kategori 1", "Kategori2");
         categoryWindow.changePanel(panelCategories);
         panelCategories = categoryWindow.changePanelContent();
         add(panelCategories);
@@ -67,18 +65,12 @@ public class GameWindow extends JFrame {
             panelCategories.setVisible(false);
 //            questionsWindow();
             animalQuestions();
-        });
-
-        category3.addActionListener(e -> {
-            panelCategories.setVisible(false);
-            nutritionQuestions();
 
         });
     }
 
     public void christmasQuestions() {
         Questions[] questions = theQuiz.getCategoryQuestions(1);
-
     }
 
     public void animalQuestions() {
