@@ -40,6 +40,10 @@ public class TheQuiz {
         return categoryNames;
     }
 
+    public QuizCategory[] getCategories() {
+        return categories;
+    }
+
     public Questions[] getCategoryQuestions(int categoryChoice) {
         QuizCategory selectedCategory = quizCategories.get(categoryChoice - 1);
         return selectedCategory.getCategories(); }
