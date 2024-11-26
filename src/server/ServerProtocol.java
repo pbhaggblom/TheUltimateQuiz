@@ -43,6 +43,7 @@ public class ServerProtocol {
                 System.out.println(game.getActivePlayer().getName() + " " + input);
 //                return "QUESTION";
             } else if (input.startsWith("answered")) {
+                game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
                 //kolla om svar är rätt
                 //ge poäng
                 game.addQuestionsAnswered();
