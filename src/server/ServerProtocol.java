@@ -32,8 +32,8 @@ public class ServerProtocol {
         return quiz;
     }
 
-    public Response getOutput(String input) {
-        Response output;
+    public Object getOutput(String input) {
+        Object output;
 
         if (state == INITIAL) {
             //skicka kategorier
@@ -74,12 +74,12 @@ public class ServerProtocol {
                         } else {
                             //skicka resultat till båda spelarna
                             game.resetRoundsPlayed();
-                            return new Response("RESULT", null);
+                            return new ResultResponse(game.getActivePlayer(), game.getActivePlayer().getOpponent(), true);
                         }
                     } else {
                         //skicka första frågan (samma som innan)
                         game.resetQuestionsAnswered();
-                        return new Response("WAIT", null);
+                        return new ResultResponse(game.getActivePlayer(), game.getActivePlayer().getOpponent(), false);
                     }
                 }
             } else if (input.equals("next player")) {
