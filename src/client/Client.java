@@ -1,6 +1,7 @@
 package client;
 
 import GameGUI.GameWindow;
+import GameLogic.Questions;
 import server.Response;
 import server.ResultResponse;
 
@@ -66,11 +67,12 @@ public class Client {
                 gw.panelCategories.setVisible(true);
                 gw.category1.setText(r.getResponseList().get(0));
                 gw.category2.setText(r.getResponseList().get(1));
-            } else if (r.getType().equals("QUESTION")) {
-                gw.panelQuestions.setVisible(false);
-                gw.questionsWindow();
-                gw.panelQuestions.setVisible(true);
             }
+        } else if (obj instanceof Questions) {
+            Questions q = (Questions) obj;
+            gw.panelQuestions.setVisible(false);
+            gw.questionsWindow();
+            gw.panelQuestions.setVisible(true);
         } else if (obj instanceof ResultResponse) {
             ResultResponse rr = (ResultResponse) obj;
             if (rr.isFinal()) {
