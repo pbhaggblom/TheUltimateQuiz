@@ -15,6 +15,7 @@ public class GameWindow extends JFrame {
     public JButton answer2 = new JButton();
     public JButton answer3 = new JButton();
     public JButton answer4 = new JButton();
+    public Label question = new Label();
 
     public GameWindow() {
         setTitle("Quiz Game");
@@ -61,8 +62,8 @@ public class GameWindow extends JFrame {
 
     public void questionsWindow() {
         QuestionsWindow questionsWindow = new QuestionsWindow(panelQuestions, answer1,
-                answer2, answer3, answer4, 0, 0,
-                "Svar 1", "Svar 2", "Svar 3", "Svar 4");
+                answer2, answer3, answer4, 0, 2,
+                "Svar 1", "Svar 2", "Svar 3", "Svar 4", question);
         questionsWindow.changePanel(panelQuestions);
         panelQuestions = questionsWindow.changePanelContent();
         add(panelQuestions);
