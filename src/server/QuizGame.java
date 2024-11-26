@@ -11,6 +11,9 @@ public class QuizGame extends Thread {
     private Player activePlayer;
     private final int numOfRoundsPerGame;
     private final int numOfQuestionsPerRound;
+    private int roundsPlayed;
+    private int questionsAnswered;
+    private int numOfPlayersAnswered;
 
     public QuizGame(Player player1, Player player2) {
         this.player1 = player1;
@@ -26,67 +29,93 @@ public class QuizGame extends Thread {
         numOfQuestionsPerRound = Integer.parseInt(p.getProperty("numOfQuestionsPerRound", "3"));
     }
 
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
+    public int getNumOfRoundsPerGame() {
+        return numOfRoundsPerGame;
+    }
+
+    public int getNumOfQuestionsPerRound() {
+        return numOfQuestionsPerRound;
+    }
+
+    public int getRoundsPlayed() {
+        return roundsPlayed;
+    }
+
+    public int getQuestionsAnswered() {
+        return questionsAnswered;
+    }
+
+    public int getNumOfPlayersAnswered() {
+        return numOfPlayersAnswered;
+    }
+
+    public void addQuestionsAnswered() {
+        questionsAnswered++;
+    }
+
+    public void addRoundsPlayed() {
+        roundsPlayed++;
+    }
+
+    public void addNumOfPlayersAnswered() {
+        numOfPlayersAnswered++;
+    }
+
+    public void resetQuestionsAnswered() {
+        questionsAnswered = 0;
+    }
+
+    public void resetRoundsPlayed() {
+        roundsPlayed = 0;
+    }
+
+    public void resetNumOfPlayersAnswered() {
+        numOfPlayersAnswered = 0;
+    }
+
     @Override
     public void run() {
 
-        int rounds = 0;
-        int questions = 0;
-        int numOfPlayersAnswered = 0;
+        ServerProtocol sp = new ServerProtocol(this);
 
         System.out.println(player1.getName() + " " + player1.receive());
         System.out.println(player2.getName() + " " + player2.receive());
 
         activePlayer = player1;
-        activePlayer.send("CATEGORY");
+        activePlayer.send(sp.getOutput(null));
         String input;
 
         while (true) {
+
             try {
                 input = activePlayer.receive();
-                if (input.startsWith("chosen category")) {
-                    System.out.println(activePlayer.getName() + " " + input);
-                    activePlayer.send("QUESTION");
-                } else if (input.startsWith("answered")) {
-                    questions++;
-                    if (questions < numOfQuestionsPerRound) {
-                        System.out.println(activePlayer.getName() + " " + input);
-                        System.out.println("Questions: " + questions);
-                        activePlayer.send("QUESTION");
+                System.out.println(input);
+                if (input != null) {
+                    Response res = sp.getOutput(input);
+                    if (res.getType().equals("RESULT")) {
+                        player1.send(res);
+                        player2.send(res);
+                        System.out.println("Game ended");
+                    } else if (res.getType().equals("WAIT")) {
+                        activePlayer.send(res);
+                        activePlayer = activePlayer.getOpponent();
+                        activePlayer.send(sp.getOutput("next player"));
                     } else {
-                        System.out.println(activePlayer.getName() + " " + input);
-                        System.out.println("Questions: " + questions);
-                        numOfPlayersAnswered++;
-                        if (numOfPlayersAnswered == 2) {
-                            rounds++;
-                            System.out.println("Rounds: " + rounds);
-                            if (rounds < numOfRoundsPerGame) {
-                                questions = 0;
-                                numOfPlayersAnswered = 0;
-                                activePlayer.send("CATEGORY");
-                            } else {
-                                rounds = 0;
-                                player1.send("RESULT");
-                                player2.send("RESULT");
-                            }
-                        } else {
-                            questions = 0;
-                            activePlayer.send("WAIT");
-                            activePlayer = activePlayer.getOpponent();
-                            activePlayer.send("QUESTION");
-                        }
+                        activePlayer.send(res);
                     }
+                    activePlayer.out.reset();
                 }
             } catch (RuntimeException e) {
                 System.out.println("Active player disconnected");
                 break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
 
-    }
-
-    public void changeActivePlayer() {
-        activePlayer.send("WAIT");
-        activePlayer = activePlayer.getOpponent();
-        activePlayer.send("QUESTION");
     }
 }
