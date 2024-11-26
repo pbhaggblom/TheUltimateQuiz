@@ -32,9 +32,9 @@ public class Player {
 
     }
 
-    public void send(Response r) {
+    public void send(Object obj) {
         try {
-            out.writeObject(r);
+            out.writeObject(obj);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

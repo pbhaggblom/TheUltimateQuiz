@@ -2,6 +2,7 @@ package client;
 
 import GameGUI.GameWindow;
 import server.Response;
+import server.ResultResponse;
 
 import javax.swing.*;
 import java.io.*;
@@ -58,28 +59,31 @@ public class Client {
     public void handleResponse(Object obj) {
         if (obj instanceof Response) {
             Response r = (Response) obj;
-            if (r != null) {
-                System.out.println("Server:" + r.getType());
-                if (r.getType().equals("WAIT")) {
-                    System.out.println("Waiting for opponent");
-                    gw.panelCategories.setVisible(false);
-                    gw.panelQuestions.setVisible(false);
-                } else if (r.getType().equals("CATEGORY")) {
-                    gw.panelQuestions.setVisible(false);
-                    gw.categoryWindow();
-                    gw.panelCategories.setVisible(true);
-                    gw.category1.setText(r.getResponseList().get(0));
-                    gw.category2.setText(r.getResponseList().get(1));
-                } else if (r.getType().equals("QUESTION")) {
-                    gw.panelQuestions.setVisible(false);
-                    gw.questionsWindow();
-                    gw.panelQuestions.setVisible(true);
-                } else if (r.getType().equals("RESULT")) {
-                    gw.panelCategories.setVisible(false);
-                    gw.panelQuestions.setVisible(false);
-                    System.out.println("Game finished");
-                }
+            System.out.println("Server:" + r.getType());
+            if (r.getType().equals("CATEGORY")) {
+                gw.panelQuestions.setVisible(false);
+                gw.categoryWindow();
+                gw.panelCategories.setVisible(true);
+                gw.category1.setText(r.getResponseList().get(0));
+                gw.category2.setText(r.getResponseList().get(1));
+            } else if (r.getType().equals("QUESTION")) {
+                gw.panelQuestions.setVisible(false);
+                gw.questionsWindow();
+                gw.panelQuestions.setVisible(true);
             }
+        } else if (obj instanceof ResultResponse) {
+            ResultResponse rr = (ResultResponse) obj;
+            if (rr.isFinal()) {
+                //visa resultatpanel
+                gw.panelCategories.setVisible(false);
+                gw.panelQuestions.setVisible(false);
+                System.out.println("Game ended");
+            } else {
+                System.out.println("Waiting for " + rr.getOpponent());
+                gw.panelCategories.setVisible(false);
+                gw.panelQuestions.setVisible(false);
+            }
+
         }
     }
 
