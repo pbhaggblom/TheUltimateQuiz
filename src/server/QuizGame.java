@@ -84,8 +84,8 @@ public class QuizGame extends Thread {
 
         System.out.println(player1.getName() + " " + player1.receive());
         System.out.println(player2.getName() + " " + player2.receive());
-
         activePlayer = player1;
+
         activePlayer.send(sp.getOutput(null));
         String input;
 
@@ -93,19 +93,21 @@ public class QuizGame extends Thread {
 
             try {
                 input = activePlayer.receive();
-                System.out.println(input);
                 if (input != null) {
-                    Response res = sp.getOutput(input);
-                    if (res.getType().equals("RESULT")) {
-                        player1.send(res);
-                        player2.send(res);
-                        System.out.println("Game ended");
-                    } else if (res.getType().equals("WAIT")) {
-                        activePlayer.send(res);
-                        activePlayer = activePlayer.getOpponent();
-                        activePlayer.send(sp.getOutput("next player"));
+                    Object obj = sp.getOutput(input);
+                    if (obj instanceof ResultResponse) {
+                        ResultResponse res = (ResultResponse) obj;
+                        if (res.isFinal()) {
+                            player1.send(res);
+                            player2.send(res);
+                            System.out.println("Game ended");
+                        } else {
+                            activePlayer.send(res);
+                            activePlayer = activePlayer.getOpponent();
+                            activePlayer.send(sp.getOutput("next player"));
+                        }
                     } else {
-                        activePlayer.send(res);
+                        activePlayer.send(obj);
                     }
                     activePlayer.out.reset();
                 }
