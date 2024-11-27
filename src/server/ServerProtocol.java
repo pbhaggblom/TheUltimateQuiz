@@ -15,7 +15,9 @@ public class ServerProtocol {
     private List<QuizCategory> categories;
     private List<String> questions;
     private QuizCategory currentCategory;
-    private Questions currentQuestion;
+    private Questions[] currentQuestion;
+    private int currentQuestionIndex;
+    private int currentCategoryIndex;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
@@ -46,16 +48,23 @@ public class ServerProtocol {
             return new Response("CATEGORY", quiz.categories());
         } else if (state == GAMELOOP) {
             if (input.startsWith("chosen category")) {
+                currentCategoryIndex = Integer.parseInt(input.split(" ")[1]);
+                currentQuestion = quiz.getCategoryQuestions(currentCategoryIndex+1);
+                currentQuestionIndex = 0;
                 //hämta frågor från vald kategori
                 //skicka första frågan
+                Questions firstQuestion = currentQuestion[currentQuestionIndex];
                 System.out.println(game.getActivePlayer().getName() + " " + input);
                 return new Response("QUESTION", null);
             } else if (input.startsWith("answered")) {
                 //kolla om svar är rätt
+                int selectedAnswer = Integer.parseInt(input.split(" ")[1]);
+                Questions currentQuestionANDRA =currentQuestion[currentQuestionIndex];
                 //ge poäng
                 game.addQuestionsAnswered();
                 if (game.getQuestionsAnswered() < game.getNumOfQuestionsPerRound()) {
                     //skicka nästa fråga
+                    Questions nextQuestion = currentQuestion[currentQuestionIndex];
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
                     return new Response("QUESTION", null);
