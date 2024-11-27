@@ -1,6 +1,8 @@
 package GameLogic;
 
-public class Questions {
+import java.io.Serializable;
+
+public class Questions implements Serializable {
 
     private String Question;
     private String[] options;
