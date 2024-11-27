@@ -1,5 +1,7 @@
 package GameGUI;
 
+import server.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,14 +17,16 @@ public class GameWindow extends JFrame {
     public JButton answer2 = new JButton();
     public JButton answer3 = new JButton();
     public JButton answer4 = new JButton();
-    public Label question = new Label();
+    public JLabel question = new JLabel();
+    Player player1;
+    Player player2;
 
     public GameWindow() {
         setTitle("Quiz Game");
         panelStart.setLayout(new GridBagLayout());
         startWindow();
 
-        setSize(400, 700);
+        setSize(700, 700);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -85,6 +89,11 @@ public class GameWindow extends JFrame {
 //            categoryWindow();
         });
 
+    }
+
+    public void ResultWindow(String player1, String player2, int scorePlayer1, int scorePlayer2) {
+        ResultWindow resultWindow = new ResultWindow(player1,player2, scorePlayer1, scorePlayer2);
+        resultWindow.changePanelContent();
     }
 
 }

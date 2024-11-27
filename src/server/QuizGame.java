@@ -1,5 +1,7 @@
 package server;
 
+import GameGUI.ResultWindow;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -120,4 +122,5 @@ public class QuizGame extends Thread {
         }
 
     }
+
 }

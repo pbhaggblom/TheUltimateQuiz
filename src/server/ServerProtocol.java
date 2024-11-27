@@ -52,6 +52,8 @@ public class ServerProtocol {
                 return new Response("QUESTION", null);
             } else if (input.startsWith("answered")) {
                 game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
+                int points = game.getActivePlayer().getPoints();
+                System.out.println(points);
                 //kolla om svar är rätt
                 //ge poäng
                 game.addQuestionsAnswered();

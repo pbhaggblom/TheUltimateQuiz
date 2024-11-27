@@ -9,12 +9,12 @@ public class QuestionsWindow extends JFrame implements PanelHandler {
     JButton answer1, answer2, answer3, answer4;
     int x, y;
     String text1, text2, text3, text4;
-    Label question;
+    JLabel question;
 
     public QuestionsWindow(JPanel panelQuestions, JButton answer1,
                            JButton answer2, JButton answer3, JButton question4,
                            int x, int y, String text1, String text2,
-                           String text3, String text4, Label question) {
+                           String text3, String text4, JLabel question) {
         this.panelQuestions = panelQuestions;
         this.answer1 = answer1;
         this.answer2 = answer2;
@@ -38,10 +38,10 @@ public class QuestionsWindow extends JFrame implements PanelHandler {
     @Override
     public JPanel changePanelContent() {
         GridBagConstraints c = new GridBagConstraints();
-        question.setText("Hejsan");
+        question.setText("Hejsan hoppsan nu ska vi se om detta kanske går bättre");
         question.setFont(new Font("Serif", Font.BOLD, 15));
-        question.setPreferredSize(new Dimension(200, 30));
-        question.setSize(200, 30);
+//        question.setPreferredSize(new Dimension(300, 30));
+//        question.setSize(200, 30);
         c.insets = new Insets(0, 0, 10, 0);
         c.gridx = 0;
         c.gridy = 0;

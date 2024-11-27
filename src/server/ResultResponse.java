@@ -13,8 +13,8 @@ public class ResultResponse implements Serializable {
     public ResultResponse(Player player, Player opponent, boolean isFinal) {
         this.player = player.getName();
         this.opponent = opponent.getName();
-//        this.playerResult = player.getScore();
-//        this.opponentResult = opponent.getScore()
+        this.playerResult = player.getPoints();
+        this.opponentResult = opponent.getPoints();
         this.isFinal = isFinal;
     }
 
@@ -22,17 +22,17 @@ public class ResultResponse implements Serializable {
         return player;
     }
 
-//    public int getPlayerResult() {
-//        return player.getResult();
-//    }
+    public int getPlayerResult() {
+        return playerResult;
+    }
 
     public String getOpponent() {
         return opponent;
     }
 
-//    public int getPlayer2Result() {
-//        return player1.getResult();
-//    }
+    public int getPlayer2Result() {
+        return opponentResult;
+    }
 
     public boolean isFinal() {
         return isFinal;

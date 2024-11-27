@@ -1,6 +1,7 @@
 package client;
 
 import GameGUI.GameWindow;
+import server.Player;
 import server.Response;
 import server.ResultResponse;
 
@@ -14,6 +15,8 @@ public class Client {
     ObjectInputStream in;
     Socket s;
     GameWindow gw;
+    Player player;
+    Player opponent;
 
     public Client() {
 
@@ -77,6 +80,7 @@ public class Client {
                 //visa resultatpanel
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
+                System.out.println(rr.getPlayerResult());
                 System.out.println("Game ended");
             } else {
                 System.out.println("Waiting for " + rr.getOpponent());
