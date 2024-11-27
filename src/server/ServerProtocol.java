@@ -77,6 +77,7 @@ public class ServerProtocol {
                         System.out.println("Rounds: " + game.getRoundsPlayed());
                         if (game.getRoundsPlayed() < game.getNumOfRoundsPerGame()) {
                             //skicka kategorier
+                            //extra rad
                             game.resetQuestionsAnswered();
                             game.resetNumOfPlayersAnswered();
                             return new Response("CATEGORY", quiz.categories());
