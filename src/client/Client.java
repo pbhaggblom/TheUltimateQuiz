@@ -6,6 +6,7 @@ import server.Response;
 import server.ResultResponse;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -73,6 +74,11 @@ public class Client {
             gw.panelQuestions.setVisible(false);
             gw.questionsWindow();
             gw.panelQuestions.setVisible(true);
+            gw.question.setText(q.getQuestion());
+            gw.answer1.setText(q.getOptions()[0]);
+            gw.answer2.setText(q.getOptions()[1]);
+            gw.answer3.setText(q.getOptions()[2]);
+            gw.answer4.setText(q.getOptions()[3]);
         } else if (obj instanceof ResultResponse) {
             ResultResponse rr = (ResultResponse) obj;
             if (rr.isFinal()) {

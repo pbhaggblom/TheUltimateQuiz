@@ -43,6 +43,14 @@ public class TheQuiz {
         return categories;
     }
 
+    public Questions[] getAnimalsQuestions() {
+        return animalsQuestions;
+    }
+
+    public void setAnimalsQuestions(Questions[] animalsQuestions) {
+        this.animalsQuestions = animalsQuestions;
+    }
+
     public void playQuiz(BufferedReader in, PrintWriter out) throws IOException {
 
         int score = 0;

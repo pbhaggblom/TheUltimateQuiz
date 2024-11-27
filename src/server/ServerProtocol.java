@@ -49,7 +49,8 @@ public class ServerProtocol {
                 //hämta frågor från vald kategori
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
-                return new Questions(null, null, null);
+                return quiz.getAnimalsQuestions()[0];
+//                return new Questions(null, null, null);
             } else if (input.startsWith("answered")) {
                 //kolla om svar är rätt
                 //ge poäng
@@ -58,7 +59,8 @@ public class ServerProtocol {
                     //skicka nästa fråga
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
-                    return new Questions(null, null, null);
+                    return quiz.getAnimalsQuestions()[1];
+//                    return new Questions(null, null, null);
                 } else {
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
@@ -83,7 +85,8 @@ public class ServerProtocol {
                     }
                 }
             } else if (input.equals("next player")) {
-                return new Questions(null, null, null);
+                return quiz.getAnimalsQuestions()[0];
+//                return new Questions(null, null, null);
             }
         }
         return new Response("ERROR", null);
