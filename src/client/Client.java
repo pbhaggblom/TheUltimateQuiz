@@ -50,6 +50,10 @@ public class Client {
             while (true) {
                 try {
                     Object fromServer = in.readObject();
+                    if (fromServer instanceof ResultResponse) {
+                        ResultResponse r = (ResultResponse) fromServer;
+//                        System.out.println(r.ge);
+                    }
                     SwingUtilities.invokeLater(() -> handleResponse(fromServer));
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -64,14 +68,22 @@ public class Client {
             System.out.println("Server:" + r.getType());
             if (r.getType().equals("CATEGORY")) {
                 gw.panelQuestions.setVisible(false);
+                gw.panelWait.setVisible(false);
                 gw.categoryWindow();
                 gw.panelCategories.setVisible(true);
                 gw.category1.setText(r.getResponseList().get(0));
                 gw.category2.setText(r.getResponseList().get(1));
+            } else if (r.getType().equals("WAIT")) {
+                System.out.println("Waiting for opponent");
+                gw.panelCategories.setVisible(false);
+                gw.panelQuestions.setVisible(false);
+                gw.waitWindow();
+                gw.panelWait.setVisible(true);
             }
         } else if (obj instanceof Questions) {
             Questions q = (Questions) obj;
             gw.panelQuestions.setVisible(false);
+            gw.panelWait.setVisible(false);
             gw.questionsWindow();
             gw.panelQuestions.setVisible(true);
             gw.question.setText(q.getQuestion());
@@ -81,19 +93,22 @@ public class Client {
             gw.answer4.setText(q.getOptions()[3]);
         } else if (obj instanceof ResultResponse) {
             ResultResponse rr = (ResultResponse) obj;
-            if (rr.isFinal()) {
+//            if (rr.isFinal()) {
                 //visa resultatpanel
+                System.out.println(rr.getPlayer());
+                System.out.println(rr.getOpponent());
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
-                gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getPlayer2Result());
+                gw.panelWait.setVisible(false);
+                gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getOpponentResult());
                 gw.panelResult.setVisible(true);
                 System.out.println(rr.getPlayerResult());
                 System.out.println("Game ended hejsan");
-            } else {
-                System.out.println("Waiting for " + rr.getOpponent());
-                gw.panelCategories.setVisible(false);
-                gw.panelQuestions.setVisible(false);
-            }
+//            } else {
+//                System.out.println("Waiting for " + rr.getOpponent());
+//                gw.panelCategories.setVisible(false);
+//                gw.panelQuestions.setVisible(false);
+//            }
 
         }
     }

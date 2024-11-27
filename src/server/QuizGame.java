@@ -100,11 +100,14 @@ public class QuizGame extends Thread {
                     if (obj instanceof ResultResponse) {
                         ResultResponse res = (ResultResponse) obj;
                         if (res.isFinal()) {
-                            player1.send(res);
-                            player2.send(res);
+                            activePlayer.send(new ResultResponse(getActivePlayer(), getActivePlayer().getOpponent(), true));
+                            activePlayer = activePlayer.getOpponent();
+                            activePlayer.send(new ResultResponse(getActivePlayer(), getActivePlayer().getOpponent(), true));
+//                            player1.send(new Response("CATEGORY", null));
+//                            player2.send(new Response("CATEGORY", null));
                             System.out.println("Game ended");
                         } else {
-                            activePlayer.send(res);
+                            activePlayer.send(new Response("WAIT", null));
                             activePlayer = activePlayer.getOpponent();
                             activePlayer.send(sp.getOutput("next player"));
                         }

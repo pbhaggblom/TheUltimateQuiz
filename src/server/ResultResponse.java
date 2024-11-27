@@ -30,7 +30,7 @@ public class ResultResponse implements Serializable {
         return opponent;
     }
 
-    public int getPlayer2Result() {
+    public int getOpponentResult() {
         return opponentResult;
     }
 

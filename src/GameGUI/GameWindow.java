@@ -9,6 +9,7 @@ public class GameWindow extends JFrame {
     JPanel panelStart = new JPanel();
     public JPanel panelCategories = new JPanel();
     public JPanel panelQuestions = new JPanel();
+    public JPanel panelWait = new JPanel();
     JLabel label = new JLabel("Quiz Game");
     public JButton startButton = new JButton();
     public JButton category2 = new JButton();
@@ -95,6 +96,13 @@ public class GameWindow extends JFrame {
         resultWindow.changePanel(panelResult);
         panelResult = resultWindow.changePanelContent();
         add(panelResult);
+    }
+
+    public void waitWindow() {
+        WaitWindow waitWindow = new WaitWindow(panelWait);
+        waitWindow.changePanel(panelWait);
+        panelWait = waitWindow.changePanelContent();
+        add(panelWait);
     }
 
 }
