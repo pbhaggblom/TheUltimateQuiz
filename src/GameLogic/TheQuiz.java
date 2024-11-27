@@ -61,74 +61,7 @@ public class TheQuiz {
     }
 
 
-   public void setAnimalsQuestions(Questions[] animalsQuestions) {
+    public void setAnimalsQuestions(Questions[] animalsQuestions) {
         this.animalsQuestions = animalsQuestions;
     }
-
-    public void playQuiz(BufferedReader in, PrintWriter out) throws IOException {
-
-        int score = 0;
-        int userChoice;
-
-
-        List<String> categoryNames = categories();
-        for (String categoryName : categoryNames) {
-            out.println(categoryName);
-        }
-
-
-        while (true) {
-            try {
-                out.println("Choose a category");
-                out.flush();
-                String userInput = in.readLine();
-                userChoice = Integer.parseInt(userInput);
-
-                if (userChoice < 1 || userChoice > allQuestions.size()) {
-                    out.println("Something went wrong, try again");
-                    continue;
-                }
-                break;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        QuizCategory selectedCategory = quizCategories.get(userChoice - 1);
-        Questions[] catergoryQuestions = selectedCategory.getCategories();
-
-        for (Questions question : catergoryQuestions) {
-            out.println(question.getQuestion());
-
-            String[] options = question.getOptions();
-
-            for (int i = 0; i < options.length; i++) {
-                System.out.println((i + 1) + ". " + options[i]);
-                out.println((i + 1) + options[i]);
-            }
-
-            out.flush();
-
-            int userAnswer;
-
-            while (true) {
-                try {
-                    String userInput = in.readLine();
-                    userAnswer = Integer.parseInt(userInput);
-
-                    if (userAnswer < 1 || userAnswer > allQuestions.size()) {
-                        out.println("Something went wrong, try again");
-                        continue;
-                    }
-
-                    if (String.valueOf(userAnswer).equals(question.getAnswer())) {
-                        out.println("Correct!");
-                        score++;
-                    } else
-                        out.println("Wrong!");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            }
-        }
-    }}
+}

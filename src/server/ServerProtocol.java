@@ -18,7 +18,7 @@ public class ServerProtocol {
     private Questions[] currentQuestion;
     private List<Questions[]> currentCategoryQuestions;
     private int categoryIndex;
-    private int currentCategoryIndex;
+    private int currentQuestionIndex;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
@@ -53,7 +53,7 @@ public class ServerProtocol {
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
                 int categoryIndex = Integer.parseInt((input.split(": ")[1]));
-                currentCategoryIndex = 0;
+                //currentQuestionIndex = 0;
                 Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
                 return questions[0];
 
@@ -69,13 +69,13 @@ public class ServerProtocol {
                 //ge poäng
                 game.addQuestionsAnswered();
                 if (game.getQuestionsAnswered() < game.getNumOfQuestionsPerRound()) {
-                    currentCategoryIndex++;
+                    currentQuestionIndex++;
                     //skicka nästa fråga
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
                     int categoryIndex = Integer.parseInt(input.split(": ")[1]);
                     Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
-                    return questions[currentCategoryIndex];
+                    return questions[1];
                     //return quiz.getAnimalsQuestions()[1];
 //                    return new Questions(null, null, null);
                 } else {
