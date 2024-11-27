@@ -16,6 +16,7 @@ public class Client {
     ObjectInputStream in;
     Socket s;
     GameWindow gw;
+    Questions currentQuestion;
 
     public Client() {
 
@@ -26,10 +27,22 @@ public class Client {
         });
         gw.category1.addActionListener(e -> out.println("chosen category: 0"));
         gw.category2.addActionListener(e -> out.println("chosen category: 1"));
-        gw.answer1.addActionListener(e -> out.println("answered: 0"));
-        gw.answer2.addActionListener(e -> out.println("answered: 1"));
-        gw.answer3.addActionListener(e -> out.println("answered: 2"));
-        gw.answer4.addActionListener(e -> out.println("answered: 3"));
+        gw.answer1.addActionListener(e -> {
+            checkAnswer("0");
+            disableableAnswerButtons();
+        });
+        gw.answer2.addActionListener(e -> {
+            checkAnswer("1");
+            disableableAnswerButtons();
+        });
+        gw.answer3.addActionListener(e -> {
+            checkAnswer("2");
+            disableableAnswerButtons();
+        });
+        gw.answer4.addActionListener(e -> {
+            checkAnswer("3");
+            disableableAnswerButtons();
+        });
 
     }
 
@@ -50,10 +63,6 @@ public class Client {
             while (true) {
                 try {
                     Object fromServer = in.readObject();
-                    if (fromServer instanceof ResultResponse) {
-                        ResultResponse r = (ResultResponse) fromServer;
-//                        System.out.println(r.ge);
-                    }
                     SwingUtilities.invokeLater(() -> handleResponse(fromServer));
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -82,6 +91,8 @@ public class Client {
             }
         } else if (obj instanceof Questions) {
             Questions q = (Questions) obj;
+            enableAnswerButtons();
+            currentQuestion = q;
             gw.panelQuestions.setVisible(false);
             gw.panelWait.setVisible(false);
             gw.questionsWindow();
@@ -111,6 +122,65 @@ public class Client {
 //            }
 
         }
+    }
+
+    public void checkAnswer(String answer) {
+        new Thread(() -> {
+            SwingUtilities.invokeLater(() -> {
+                if (answer.equals(currentQuestion.getAnswer())) {
+                    System.out.println(getAnswerButton(answer).getBackground());
+                    getAnswerButton(answer).setBackground(Color.GREEN);
+                } else {
+                    getAnswerButton(answer).setBackground(Color.RED);
+                    getAnswerButton(currentQuestion.getAnswer()).setBackground(Color.GREEN);
+                }
+            });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            SwingUtilities.invokeLater(() -> {
+                getAnswerButton(answer).setBackground(null);
+                getAnswerButton(currentQuestion.getAnswer()).setBackground(null);
+                sendResponse(answer);
+            });
+
+        }).start();
+
+    }
+
+    public JButton getAnswerButton(String answer) {
+        switch (answer) {
+            case "0":
+                return gw.answer1;
+            case "1":
+                return gw.answer2;
+            case "2":
+                return gw.answer3;
+            case "3":
+                return gw.answer4;
+            default:
+                return null;
+        }
+    }
+
+    public void sendResponse(String res) {
+        out.println("answered: " + res);
+    }
+
+    public void enableAnswerButtons() {
+        gw.answer1.setEnabled(true);
+        gw.answer2.setEnabled(true);
+        gw.answer3.setEnabled(true);
+        gw.answer4.setEnabled(true);
+    }
+
+    public void disableableAnswerButtons() {
+        gw.answer1.setEnabled(false);
+        gw.answer2.setEnabled(false);
+        gw.answer3.setEnabled(false);
+        gw.answer4.setEnabled(false);
     }
 
     public static void main(String[] args) {
