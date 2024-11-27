@@ -117,7 +117,8 @@ public class QuizGame extends Thread {
                     activePlayer.out.reset();
                 }
             } catch (RuntimeException e) {
-                System.out.println("Active player disconnected");
+                e.printStackTrace();
+//                System.out.println("Active player disconnected");
                 break;
             } catch (IOException e) {
                 throw new RuntimeException(e);

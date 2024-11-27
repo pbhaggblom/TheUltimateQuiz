@@ -12,17 +12,17 @@ public class ServerProtocol {
     private QuizGame game;
     private TheQuiz quiz;
 
-    private List<QuizCategory> categories;
-    private List<String> questions;
+    private List<QuizCategory> categories = new ArrayList<>();
+//    private List<String> questions;
+    private Questions[] questions;
     private QuizCategory currentCategory;
     private Questions[] currentQuestion;
     private List<Questions[]> currentCategoryQuestions;
     private int categoryIndex;
-    private int currentQuestionIndex;
+    private int currentQuestionIndex = 0;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
-    final protected int GAME_ENDED = 2;
 
     protected int state = INITIAL;
 
@@ -41,9 +41,8 @@ public class ServerProtocol {
         if (state == INITIAL) {
             //skicka kategorier
 
-            List<QuizCategory> list = new ArrayList<>();
             for (QuizCategory category : quiz.getCategories()) {
-                list.add(category);
+                categories.add(category);
             }
             state = GAMELOOP;
             return new Response("CATEGORY", quiz.categories());
@@ -53,14 +52,10 @@ public class ServerProtocol {
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
                 int categoryIndex = Integer.parseInt((input.split(": ")[1]));
-                //currentQuestionIndex = 0;
-                Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
-                return questions[0];
+                currentQuestionIndex = 0;
+                questions = quiz.getCategoryQuestions(categoryIndex);
+                return questions[currentQuestionIndex];
 
-               // return quiz.getCategoryQuestions(userInput);
-              //  return quiz.getCategoryIndex(userInput);
-                //return quiz.getAnimalQuestions()[1];
-//                return new Questions(null, null, null);
             } else if (input.startsWith("answered")) {
                 game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
                 int points = game.getActivePlayer().getPoints();
@@ -69,15 +64,14 @@ public class ServerProtocol {
                 //ge poäng
                 game.addQuestionsAnswered();
                 if (game.getQuestionsAnswered() < game.getNumOfQuestionsPerRound()) {
-                    currentQuestionIndex++;
                     //skicka nästa fråga
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
-                    int categoryIndex = Integer.parseInt(input.split(": ")[1]);
-                    Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
-                    return questions[1];
-                    //return quiz.getAnimalsQuestions()[1];
-//                    return new Questions(null, null, null);
+//                    int categoryIndex = Integer.parseInt(input.split(": ")[1]);
+//                    Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
+                    currentQuestionIndex++;
+                    System.out.println("i:" + currentQuestionIndex);
+                    return questions[currentQuestionIndex];
                 } else {
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
@@ -98,13 +92,16 @@ public class ServerProtocol {
                     } else {
                         //skicka första frågan (samma som innan)
                         game.resetQuestionsAnswered();
+                        currentQuestionIndex = 0;
                         return new ResultResponse(game.getActivePlayer(), game.getActivePlayer().getOpponent(), false);
                     }
                 }
             } else if (input.equals("next player")) {
-                Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
-                return questions[0];
-//                return new Questions(null, null, null);
+//                Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
+                currentQuestionIndex = 0;
+                System.out.println("i:" + currentQuestionIndex);
+                return questions[currentQuestionIndex];
+
             }
         }
         return new Response("ERROR", null);
