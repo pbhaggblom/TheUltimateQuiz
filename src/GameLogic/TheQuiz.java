@@ -39,15 +39,29 @@ public class TheQuiz {
         return categoryNames;
     }
 
+    public List<Questions[]> getQuestions() {
+        return allQuestions;
+    }
+
+    public Questions[] getCategoryQuestions(int index) {
+        if (index >= 0 && index < quizCategories.size()) {
+            return quizCategories.get(index).getCategories();
+        }
+        return null;
+    }
+
+
     public QuizCategory[] getCategories() {
         return categories;
     }
 
     public Questions[] getAnimalsQuestions() {
         return animalsQuestions;
+
     }
 
-    public void setAnimalsQuestions(Questions[] animalsQuestions) {
+
+   public void setAnimalsQuestions(Questions[] animalsQuestions) {
         this.animalsQuestions = animalsQuestions;
     }
 
@@ -56,11 +70,12 @@ public class TheQuiz {
         int score = 0;
         int userChoice;
 
-        out.println("Select a category:");
+
         List<String> categoryNames = categories();
         for (String categoryName : categoryNames) {
             out.println(categoryName);
         }
+
 
         while (true) {
             try {
