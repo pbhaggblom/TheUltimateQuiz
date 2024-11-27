@@ -18,8 +18,7 @@ public class GameWindow extends JFrame {
     public JButton answer3 = new JButton();
     public JButton answer4 = new JButton();
     public JLabel question = new JLabel();
-    Player player1;
-    Player player2;
+    public JPanel panelResult = new JPanel();
 
     public GameWindow() {
         setTitle("Quiz Game");
@@ -91,9 +90,11 @@ public class GameWindow extends JFrame {
 
     }
 
-    public void ResultWindow(String player1, String player2, int scorePlayer1, int scorePlayer2) {
-        ResultWindow resultWindow = new ResultWindow(player1,player2, scorePlayer1, scorePlayer2);
-        resultWindow.changePanelContent();
+    public void resultWindow(String player1, String player2, int scorePlayer1, int scorePlayer2) {
+        ResultWindow resultWindow = new ResultWindow(panelResult, player1, player2, scorePlayer1, scorePlayer2);
+        resultWindow.changePanel(panelResult);
+        panelResult = resultWindow.changePanelContent();
+        add(panelResult);
     }
 
 }

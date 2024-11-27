@@ -85,8 +85,10 @@ public class Client {
                 //visa resultatpanel
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
+                gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getPlayer2Result());
+                gw.panelResult.setVisible(true);
                 System.out.println(rr.getPlayerResult());
-                System.out.println("Game ended");
+                System.out.println("Game ended hejsan");
             } else {
                 System.out.println("Waiting for " + rr.getOpponent());
                 gw.panelCategories.setVisible(false);
