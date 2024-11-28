@@ -9,6 +9,7 @@ public class StartWindow extends JFrame implements PanelHandler  {
     int x, y;
     String text;
     JLabel labelStart;
+    JTextField textField = new JTextField(20);
 
     public StartWindow(JPanel panelStart, JButton startButton, int x,
                        int y, String text, JLabel labelStart) {
@@ -43,6 +44,11 @@ public class StartWindow extends JFrame implements PanelHandler  {
         c.gridy = 0;
         c.insets = new Insets(0, 0, 100, 0);
         panelStart.add(labelStart, c);
+
+        textField.setSize(200, 40);
+        c.gridx = 0;
+        c.gridy = 2;
+        panelStart.add(textField, c);
 
         return panelStart;
     }
