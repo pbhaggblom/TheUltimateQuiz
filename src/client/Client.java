@@ -198,10 +198,6 @@ public class Client {
         gw.answer4.setEnabled(false);
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
