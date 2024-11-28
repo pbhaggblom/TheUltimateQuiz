@@ -104,7 +104,7 @@ public class Client {
             gw.answer4.setText(q.getOptions()[3]);
         } else if (obj instanceof ResultResponse) {
             ResultResponse rr = (ResultResponse) obj;
-//            if (rr.isFinal()) {
+            if (rr.isFinal()) {
                 //visa resultatpanel
                 System.out.println(rr.getPlayer());
                 System.out.println(rr.getOpponent());
@@ -114,12 +114,15 @@ public class Client {
                 gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getOpponentResult());
                 gw.panelResult.setVisible(true);
                 System.out.println(rr.getPlayerResult());
-                System.out.println("Game ended hejsan");
-//            } else {
-//                System.out.println("Waiting for " + rr.getOpponent());
-//                gw.panelCategories.setVisible(false);
-//                gw.panelQuestions.setVisible(false);
-//            }
+                System.out.println("Game ended");
+            } else {
+                System.out.println("round result");
+                gw.panelCategories.setVisible(false);
+                gw.panelQuestions.setVisible(false);
+                gw.panelWait.setVisible(false);
+                gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getOpponentResult());
+                gw.panelResult.setVisible(true);
+            }
 
         }
     }
@@ -128,7 +131,6 @@ public class Client {
         new Thread(() -> {
             SwingUtilities.invokeLater(() -> {
                 if (answer.equals(currentQuestion.getAnswer())) {
-                    System.out.println(getAnswerButton(answer).getBackground());
                     getAnswerButton(answer).setBackground(Color.GREEN);
                 } else {
                     getAnswerButton(answer).setBackground(Color.RED);

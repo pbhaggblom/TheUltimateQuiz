@@ -72,22 +72,22 @@ public class GameWindow extends JFrame {
         panelQuestions = questionsWindow.changePanelContent();
         add(panelQuestions);
 
-        answer1.addActionListener(e -> {
-            System.out.println("Du valde svar 1");
-//            categoryWindow();
-        });
-        answer2.addActionListener(e -> {
-            System.out.println("Du valde svar 2");
-//            categoryWindow();
-        });
-        answer3.addActionListener(e -> {
-            System.out.println("Du valde svar 3");
-//            categoryWindow();
-        });
-        answer4.addActionListener(e -> {
-            System.out.println("Du valde svar 4");
-//            categoryWindow();
-        });
+//        answer1.addActionListener(e -> {
+//            System.out.println("Du valde svar 1");
+////            categoryWindow();
+//        });
+//        answer2.addActionListener(e -> {
+//            System.out.println("Du valde svar 2");
+////            categoryWindow();
+//        });
+//        answer3.addActionListener(e -> {
+//            System.out.println("Du valde svar 3");
+////            categoryWindow();
+//        });
+//        answer4.addActionListener(e -> {
+//            System.out.println("Du valde svar 4");
+////            categoryWindow();
+//        });
 
     }
 
