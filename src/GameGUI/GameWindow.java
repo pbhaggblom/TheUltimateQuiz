@@ -43,7 +43,6 @@ public class GameWindow extends JFrame {
 
         startButton.addActionListener(e -> {
             panelStart.setVisible(false);
-//            categoryWindow();
             panelCategories.setVisible(false);
         });
     }
@@ -57,11 +56,9 @@ public class GameWindow extends JFrame {
 
         category1.addActionListener(e -> {
             panelCategories.setVisible(false);
-//            questionsWindow();
         });
         category2.addActionListener(e -> {
             panelCategories.setVisible(false);
-//            questionsWindow();
         });
     }
 
@@ -72,23 +69,6 @@ public class GameWindow extends JFrame {
         questionsWindow.changePanel(panelQuestions);
         panelQuestions = questionsWindow.changePanelContent();
         add(panelQuestions);
-
-//        answer1.addActionListener(e -> {
-//            System.out.println("Du valde svar 1");
-////            categoryWindow();
-//        });
-//        answer2.addActionListener(e -> {
-//            System.out.println("Du valde svar 2");
-////            categoryWindow();
-//        });
-//        answer3.addActionListener(e -> {
-//            System.out.println("Du valde svar 3");
-////            categoryWindow();
-//        });
-//        answer4.addActionListener(e -> {
-//            System.out.println("Du valde svar 4");
-////            categoryWindow();
-//        });
 
     }
 

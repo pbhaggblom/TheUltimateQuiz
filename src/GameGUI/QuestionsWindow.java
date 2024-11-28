@@ -40,8 +40,6 @@ public class QuestionsWindow extends JFrame implements PanelHandler {
         GridBagConstraints c = new GridBagConstraints();
         question.setText("Hejsan hoppsan nu ska vi se om detta kanske går bättre");
         question.setFont(new Font("Serif", Font.BOLD, 15));
-//        question.setPreferredSize(new Dimension(300, 30));
-//        question.setSize(200, 30);
         c.insets = new Insets(0, 0, 10, 0);
         c.gridx = 0;
         c.gridy = 0;

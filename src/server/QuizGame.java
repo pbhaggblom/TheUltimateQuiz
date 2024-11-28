@@ -110,7 +110,6 @@ public class QuizGame extends Thread {
                             activePlayer.send(new ResultResponse(getActivePlayer(), getActivePlayer().getOpponent(), true));
                             System.out.println("Game ended");
                         } else {
-//                            showRoundResult(res);
                             activePlayer.send(new Response("WAIT", null));
                             activePlayer = activePlayer.getOpponent();
                             activePlayer.send(sp.getOutput("next player"));
@@ -130,7 +129,6 @@ public class QuizGame extends Thread {
                 }
             } catch (RuntimeException e) {
                 e.printStackTrace();
-//                System.out.println("Active player disconnected");
                 break;
             } catch (IOException e) {
                 throw new RuntimeException(e);
