@@ -5,6 +5,8 @@ import GameLogic.QuizCategory;
 import GameLogic.TheQuiz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ServerProtocol {
@@ -21,6 +23,7 @@ public class ServerProtocol {
     private int categoryIndex;
     private int currentQuestionIndex = 0;
     private List<String> shuffledCategories;
+    List<Questions> shuffledQuestions;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
@@ -57,9 +60,15 @@ public class ServerProtocol {
                 categoryIndex = Integer.parseInt((input.split(": ")[1]));
                 String selectedCategory = shuffledCategories.get(categoryIndex);
                 questions = quiz.getCategoryQuestions(selectedCategory);
+
+                shuffledQuestions = new ArrayList<>();
+                shuffledQuestions.addAll(Arrays.asList(questions));
+                Collections.shuffle(shuffledQuestions);
+
                 currentQuestionIndex = 0;
                 System.out.println("i:" + currentQuestionIndex);
-                return questions[currentQuestionIndex];
+                return shuffledQuestions.get(currentQuestionIndex);
+//                return questions[currentQuestionIndex];
 
             } else if (input.startsWith("answered")) {
                 game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
@@ -76,7 +85,8 @@ public class ServerProtocol {
 //                    Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
                     currentQuestionIndex++;
                     System.out.println("i:" + currentQuestionIndex);
-                    return questions[currentQuestionIndex];
+                    return shuffledQuestions.get(currentQuestionIndex);
+//                    return questions[currentQuestionIndex];
                 } else {
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
@@ -106,7 +116,8 @@ public class ServerProtocol {
 //                Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
 //                currentQuestionIndex = 0;
                 System.out.println("i:" + currentQuestionIndex);
-                return questions[currentQuestionIndex];
+                return shuffledQuestions.get(currentQuestionIndex);
+//                return questions[currentQuestionIndex];
 
             }
         }
