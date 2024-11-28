@@ -5,6 +5,8 @@ import GameLogic.QuizCategory;
 import GameLogic.TheQuiz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ServerProtocol {
@@ -13,13 +15,15 @@ public class ServerProtocol {
     private TheQuiz quiz;
 
     private List<QuizCategory> categories = new ArrayList<>();
-//    private List<String> questions;
+    private List<String> shuffleQuestions;
     private Questions[] questions;
     private QuizCategory currentCategory;
-    private Questions[] currentQuestion;
+    private Questions[] selectedQuestion;
     private List<Questions[]> currentCategoryQuestions;
     private int categoryIndex;
     private int currentQuestionIndex = 0;
+    private List<String> shuffledCategories;
+    List<Questions> shuffledQuestions;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
@@ -41,20 +45,30 @@ public class ServerProtocol {
         if (state == INITIAL) {
             //skicka kategorier
 
-            for (QuizCategory category : quiz.getCategories()) {
+            for(QuizCategory category : quiz.getCategories()) {
                 categories.add(category);
             }
+            shuffledCategories = quiz.categories();
             state = GAMELOOP;
-            return new Response("CATEGORY", quiz.categories());
+            return new Response("CATEGORY", shuffledCategories);
+          //return new Response("CATEGORY", quiz.categories());
         } else if (state == GAMELOOP) {
             if (input.startsWith("chosen category")) {
                 //hämta frågor från vald kategori
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
-                int categoryIndex = Integer.parseInt((input.split(": ")[1]));
+                categoryIndex = Integer.parseInt((input.split(": ")[1]));
+                String selectedCategory = shuffledCategories.get(categoryIndex);
+                questions = quiz.getCategoryQuestions(selectedCategory);
+
+                shuffledQuestions = new ArrayList<>();
+                shuffledQuestions.addAll(Arrays.asList(questions));
+                Collections.shuffle(shuffledQuestions);
+
                 currentQuestionIndex = 0;
-                questions = quiz.getCategoryQuestions(categoryIndex);
-                return questions[currentQuestionIndex];
+                System.out.println("i:" + currentQuestionIndex);
+                return shuffledQuestions.get(currentQuestionIndex);
+//                return questions[currentQuestionIndex];
 
             } else if (input.startsWith("answered")) {
                 game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
@@ -71,7 +85,8 @@ public class ServerProtocol {
 //                    Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
                     currentQuestionIndex++;
                     System.out.println("i:" + currentQuestionIndex);
-                    return questions[currentQuestionIndex];
+                    return shuffledQuestions.get(currentQuestionIndex);
+//                    return questions[currentQuestionIndex];
                 } else {
                     System.out.println(game.getActivePlayer().getName() + " " + input);
                     System.out.println("Questions: " + game.getQuestionsAnswered());
@@ -83,7 +98,8 @@ public class ServerProtocol {
                             //skicka kategorier
                             game.resetQuestionsAnswered();
                             game.resetNumOfPlayersAnswered();
-                            return new Response("CATEGORY", quiz.categories());
+                            shuffledCategories = quiz.categories();
+                            return new Response("CATEGORY", shuffledCategories);
                         } else {
                             //skicka resultat till båda spelarna
                             game.resetRoundsPlayed();
@@ -98,9 +114,10 @@ public class ServerProtocol {
                 }
             } else if (input.equals("next player")) {
 //                Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
-                currentQuestionIndex = 0;
+//                currentQuestionIndex = 0;
                 System.out.println("i:" + currentQuestionIndex);
-                return questions[currentQuestionIndex];
+                return shuffledQuestions.get(currentQuestionIndex);
+//                return questions[currentQuestionIndex];
 
             }
         }
