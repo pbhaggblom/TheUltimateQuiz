@@ -20,6 +20,7 @@ public class GameWindow extends JFrame {
     public JButton answer4 = new JButton();
     public JLabel question = new JLabel();
     public JPanel panelResult = new JPanel();
+    public JTextField textField = new JTextField(20);
 
     public GameWindow() {
         setTitle("Quiz Game");
@@ -34,8 +35,8 @@ public class GameWindow extends JFrame {
     }
 
     public void startWindow() {
-        StartWindow startWindow = new StartWindow(panelStart, startButton, 0, 1,
-                "Starta nytt spel", label);
+        StartWindow startWindow = new StartWindow(panelStart, startButton,textField, 0, 1,
+                 "Starta nytt spel", label);
         startWindow.changePanel(panelStart);
         panelStart = startWindow.changePanelContent();
         add(panelStart);

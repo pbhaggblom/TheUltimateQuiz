@@ -9,9 +9,9 @@ public class StartWindow extends JFrame implements PanelHandler  {
     int x, y;
     String text;
     JLabel labelStart;
-    JTextField textField = new JTextField(20);
+    JTextField textField;
 
-    public StartWindow(JPanel panelStart, JButton startButton, int x,
+    public StartWindow(JPanel panelStart, JButton startButton, JTextField nameField, int x,
                        int y, String text, JLabel labelStart) {
         this.panelStart = panelStart;
         this.startButton = startButton;
@@ -19,6 +19,8 @@ public class StartWindow extends JFrame implements PanelHandler  {
         this.y = y;
         this.text = text;
         this.labelStart = labelStart;
+        this.textField = nameField;
+
     }
 
     @Override
