@@ -10,7 +10,7 @@ import java.util.List;
 public class TheQuiz {
 
     Questions[] christmasQuestions = {
-            new Questions("In which of these countries do they celebrate Christmas on the 24th of December?", new String[]{"Sweden", "United Kingdom", "Ireland", "France"}, "0"),
+            new Questions("Who does Christmas celebrate the birth of?", new String[]{"Jesus", "Santa Clause", "Eve", "Adam"}, "0"),
             new Questions("What's Santa Clause called in Sweden?", new String[]{"Julnisse", "Julgubbe", "Jultomte", "Julbocken"}, "2"),
             new Questions("What is the alternative Christmas plant associated with Mexico?", new String[]{"Cactus", "Poinsetta", "Holly", "Mistletoe"}, "1"),
             new Questions("Which of the following is one of Santa’s reindeer?", new String[]{"Comet", "Lancer", "Blixem", "Loner"}, "0")};
@@ -40,8 +40,6 @@ public class TheQuiz {
             new Questions("Who is known as the \"King of Pop\"?", new String[]{"Elvis Presley", "Michael Jackson", "Frank Sinatra", "Prince"}, "1")};
 
 
-    List<Questions[]> allQuestions = List.of(christmasQuestions, animalsQuestions, nutritionQuestions);
-
     QuizCategory[] categories = {
             new QuizCategory("Christmas", christmasQuestions),
             new QuizCategory("Animals", animalsQuestions),
@@ -59,10 +57,7 @@ public class TheQuiz {
 
     Collections.shuffle(categoryNames);
         return categoryNames;
-    }
 
-    public List<Questions[]> getQuestions() {
-        return allQuestions;
     }
 
     public Questions[] getCategoryQuestions(String category) {
@@ -83,26 +78,10 @@ public class TheQuiz {
 
         }
 
-
-   /* public Questions[] getCategoryQuestions(int index) {
-        if (index >= 0 && index < quizCategories.size()) {
-            return quizCategories.get(index).getCategories();
-        }
-        return null;
-    }*/
-
-
     public QuizCategory[] getCategories() {
         return categories;
     }
 
-    public Questions[] getAnimalsQuestions() {
-        return animalsQuestions;
 
     }
 
-
-    public void setAnimalsQuestions(Questions[] animalsQuestions) {
-        this.animalsQuestions = animalsQuestions;
-    }
-}
