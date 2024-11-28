@@ -53,10 +53,8 @@ public class TheQuiz {
 
     public List<String> categories() {
         List<String> categoryNames = new ArrayList<>();
-        int i = 1;
         for (QuizCategory category : quizCategories) {
-            categoryNames.add(i + "." + category.getCategoryName());
-            i++;
+            categoryNames.add( category.getCategoryName());
         }
 
     Collections.shuffle(categoryNames);
@@ -67,12 +65,31 @@ public class TheQuiz {
         return allQuestions;
     }
 
-    public Questions[] getCategoryQuestions(int index) {
+    public Questions[] getCategoryQuestions(String category) {
+        if(category.trim().equalsIgnoreCase("Christmas")) {
+            return christmasQuestions; }
+        else if (category.trim().equals("Animals".trim())) {
+            return animalsQuestions; }
+        else if (category.trim().equalsIgnoreCase("Nutrition".trim())) {
+            return nutritionQuestions;
+        }
+        else if (category.trim().equalsIgnoreCase("Geography".trim())) {
+            return geographyQuestions;
+        }
+        else if (category.trim().equalsIgnoreCase("Music".trim())) {
+            return musicQuestions;
+        }
+        else { return null; }
+
+        }
+
+
+   /* public Questions[] getCategoryQuestions(int index) {
         if (index >= 0 && index < quizCategories.size()) {
             return quizCategories.get(index).getCategories();
         }
         return null;
-    }
+    }*/
 
 
     public QuizCategory[] getCategories() {

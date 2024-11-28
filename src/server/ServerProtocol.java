@@ -13,13 +13,14 @@ public class ServerProtocol {
     private TheQuiz quiz;
 
     private List<QuizCategory> categories = new ArrayList<>();
-//    private List<String> questions;
+    private List<String> shuffleQuestions;
     private Questions[] questions;
     private QuizCategory currentCategory;
-    private Questions[] currentQuestion;
+    private Questions[] selectedQuestion;
     private List<Questions[]> currentCategoryQuestions;
     private int categoryIndex;
     private int currentQuestionIndex = 0;
+    private List<String> shuffledCategories;
 
     final protected int INITIAL = 0;
     final protected int GAMELOOP = 1;
@@ -41,19 +42,21 @@ public class ServerProtocol {
         if (state == INITIAL) {
             //skicka kategorier
 
-            for (QuizCategory category : quiz.getCategories()) {
+            for(QuizCategory category : quiz.getCategories()) {
                 categories.add(category);
             }
+            shuffledCategories = quiz.categories();
             state = GAMELOOP;
-            return new Response("CATEGORY", quiz.categories());
+            return new Response("CATEGORY", shuffledCategories);
+          //return new Response("CATEGORY", quiz.categories());
         } else if (state == GAMELOOP) {
             if (input.startsWith("chosen category")) {
                 //hämta frågor från vald kategori
                 //skicka första frågan
                 System.out.println(game.getActivePlayer().getName() + " " + input);
-                int categoryIndex = Integer.parseInt((input.split(": ")[1]));
-                currentQuestionIndex = 0;
-                questions = quiz.getCategoryQuestions(categoryIndex);
+                categoryIndex = Integer.parseInt((input.split(": ")[1]));
+                String selectedCategory = shuffledCategories.get(categoryIndex);
+                questions = quiz.getCategoryQuestions(selectedCategory);
                 return questions[currentQuestionIndex];
 
             } else if (input.startsWith("answered")) {
@@ -83,7 +86,8 @@ public class ServerProtocol {
                             //skicka kategorier
                             game.resetQuestionsAnswered();
                             game.resetNumOfPlayersAnswered();
-                            return new Response("CATEGORY", quiz.categories());
+                            shuffledCategories = quiz.categories();
+                            return new Response("CATEGORY", shuffledCategories);
                         } else {
                             //skicka resultat till båda spelarna
                             game.resetRoundsPlayed();
