@@ -71,9 +71,11 @@ public class ServerProtocol {
 //                return questions[currentQuestionIndex];
 
             } else if (input.startsWith("answered")) {
-                game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
-                int points = game.getActivePlayer().getPoints();
-                System.out.println(points);
+
+                if (input.substring(input.length() - 1).equals(shuffledQuestions.get(currentQuestionIndex).getAnswer())) {
+                    game.getActivePlayer().setPoints(game.getActivePlayer().getPoints() + 1);
+                }
+
                 //kolla om svar är rätt
                 //ge poäng
                 game.addQuestionsAnswered();
