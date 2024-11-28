@@ -91,6 +91,11 @@ public class Client {
                 gw.category2.setText(r.getResponseList().get(1));
             } else if (r.getType().equals("WAIT")) {
                 System.out.println("Waiting for opponent");
+                if (userName == null) {
+                    userName = r.getResponseList().getFirst();
+                    gw.setTitle(gw.getTitle() + " (" + userName + ")");
+
+                }
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
                 gw.panelResult.setVisible(false);
