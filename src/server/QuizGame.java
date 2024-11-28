@@ -103,16 +103,22 @@ public class QuizGame extends Thread {
                             activePlayer.send(new ResultResponse(getActivePlayer(), getActivePlayer().getOpponent(), true));
                             activePlayer = activePlayer.getOpponent();
                             activePlayer.send(new ResultResponse(getActivePlayer(), getActivePlayer().getOpponent(), true));
-//                            player1.send(new Response("CATEGORY", null));
-//                            player2.send(new Response("CATEGORY", null));
                             System.out.println("Game ended");
                         } else {
-                            showRoundResult(res);
+//                            showRoundResult(res);
                             activePlayer.send(new Response("WAIT", null));
                             activePlayer = activePlayer.getOpponent();
                             activePlayer.send(sp.getOutput("next player"));
                         }
                     } else {
+                        if (obj instanceof Response) {
+                            Response res = (Response) obj;
+                            if (res.getType().equals("CATEGORY")) {
+                                showRoundResult(new ResultResponse(getActivePlayer(), getActivePlayer().getOpponent(), false));
+                                activePlayer.send(res);
+                                activePlayer.getOpponent().send(new Response("WAIT", null));
+                            }
+                        }
                         activePlayer.send(obj);
                     }
                     activePlayer.out.reset();
@@ -129,7 +135,6 @@ public class QuizGame extends Thread {
     }
 
     public void showRoundResult(ResultResponse res) {
-//        new Thread(() -> {
             player1.send(res);
             player2.send(res);
             try {
@@ -137,7 +142,6 @@ public class QuizGame extends Thread {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-//        });
     }
 
 }

@@ -78,6 +78,7 @@ public class Client {
             if (r.getType().equals("CATEGORY")) {
                 gw.panelQuestions.setVisible(false);
                 gw.panelWait.setVisible(false);
+                gw.panelResult.setVisible(false);
                 gw.categoryWindow();
                 gw.panelCategories.setVisible(true);
                 gw.category1.setText(r.getResponseList().get(0));
@@ -86,6 +87,7 @@ public class Client {
                 System.out.println("Waiting for opponent");
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
+                gw.panelResult.setVisible(false);
                 gw.waitWindow();
                 gw.panelWait.setVisible(true);
             }
@@ -95,6 +97,7 @@ public class Client {
             currentQuestion = q;
             gw.panelQuestions.setVisible(false);
             gw.panelWait.setVisible(false);
+            gw.panelResult.setVisible(false);
             gw.questionsWindow();
             gw.panelQuestions.setVisible(true);
             gw.question.setText(q.getQuestion());
@@ -110,7 +113,9 @@ public class Client {
                 System.out.println(rr.getOpponent());
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
+                gw.panelResult.setVisible(false);
                 gw.panelWait.setVisible(false);
+                gw.panelResult.removeAll();
                 gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getOpponentResult());
                 gw.panelResult.setVisible(true);
                 System.out.println(rr.getPlayerResult());
@@ -120,6 +125,8 @@ public class Client {
                 gw.panelCategories.setVisible(false);
                 gw.panelQuestions.setVisible(false);
                 gw.panelWait.setVisible(false);
+                gw.panelResult.setVisible(false);
+                gw.panelResult.removeAll();
                 gw.resultWindow(rr.getPlayer(), rr.getOpponent(), rr.getPlayerResult(), rr.getOpponentResult());
                 gw.panelResult.setVisible(true);
             }
