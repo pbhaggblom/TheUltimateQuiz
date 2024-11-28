@@ -57,6 +57,8 @@ public class ServerProtocol {
                 categoryIndex = Integer.parseInt((input.split(": ")[1]));
                 String selectedCategory = shuffledCategories.get(categoryIndex);
                 questions = quiz.getCategoryQuestions(selectedCategory);
+                currentQuestionIndex = 0;
+                System.out.println("i:" + currentQuestionIndex);
                 return questions[currentQuestionIndex];
 
             } else if (input.startsWith("answered")) {
@@ -102,7 +104,7 @@ public class ServerProtocol {
                 }
             } else if (input.equals("next player")) {
 //                Questions[] questions = quiz.getCategoryQuestions(categoryIndex);
-                currentQuestionIndex = 0;
+//                currentQuestionIndex = 0;
                 System.out.println("i:" + currentQuestionIndex);
                 return questions[currentQuestionIndex];
 
