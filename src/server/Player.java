@@ -53,6 +53,10 @@ public class Player {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setPoints(int points) {this.points = points;}
 
     public int getPoints() {return points;}

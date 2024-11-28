@@ -17,12 +17,17 @@ public class Client {
     Socket s;
     GameWindow gw;
     Questions currentQuestion;
+    private String userName;
 
     public Client() {
 
         gw = new GameWindow();
 
         gw.startButton.addActionListener(e -> {
+            if (!gw.textField.getText().isBlank()) {
+                userName = gw.textField.getText().trim();
+                gw.setTitle(gw.getTitle() + " (" + userName + ")");
+            }
             connectToServer();
         });
         gw.category1.addActionListener(e -> out.println("chosen category: 0"));
@@ -51,7 +56,8 @@ public class Client {
             s = new Socket("127.0.0.1", 55555);
             out = new PrintWriter(s.getOutputStream(), true);
             in = new ObjectInputStream(s.getInputStream());
-            out.println("connected");
+
+            out.println(userName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -190,6 +196,14 @@ public class Client {
         gw.answer2.setEnabled(false);
         gw.answer3.setEnabled(false);
         gw.answer4.setEnabled(false);
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public static void main(String[] args) {

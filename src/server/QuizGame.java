@@ -83,9 +83,14 @@ public class QuizGame extends Thread {
     public void run() {
 
         ServerProtocol sp = new ServerProtocol(this);
+        String p1 = player1.receive();
+        String p2 = player2.receive();
 
-        System.out.println(player1.getName() + " " + player1.receive());
-        System.out.println(player2.getName() + " " + player2.receive());
+        player1.setName(p1);
+        player2.setName(p2);
+
+        System.out.println(player1.getName() + " connected");
+        System.out.println(player2.getName() + " connected");
         activePlayer = player1;
 
         activePlayer.send(sp.getOutput(null));
