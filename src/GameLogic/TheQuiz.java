@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TheQuiz {
@@ -57,6 +58,8 @@ public class TheQuiz {
             categoryNames.add(i + "." + category.getCategoryName());
             i++;
         }
+
+    Collections.shuffle(categoryNames);
         return categoryNames;
     }
 
