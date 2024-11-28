@@ -31,10 +31,6 @@ public class ServerProtocol {
         quiz = new TheQuiz();
     }
 
-    public TheQuiz getQuiz() {
-        return quiz;
-    }
-
     public Object getOutput(String input) {
 
         if (state == INITIAL) {
